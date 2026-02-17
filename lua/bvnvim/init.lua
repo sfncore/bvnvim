@@ -19,6 +19,7 @@
 ---@brief ]]
 
 local config = require("bvnvim.config")
+local highlight = require("bvnvim.highlight")
 
 ---@class BvnvimState
 ---@field config BvnvimConfig Validated configuration
@@ -51,6 +52,8 @@ function M.setup(opts)
 	-- Auto-detect current rig if possible
 	M.state.current_rig = M._detect_rig()
 
+	-- Initialize highlight groups
+	highlight.init()
 	-- Register commands
 	M._register_commands()
 
