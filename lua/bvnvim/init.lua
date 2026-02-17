@@ -183,11 +183,16 @@ end
 ---@param session_uuid? string Specific session to view
 function M.cmd_session(session_uuid)
 	if session_uuid then
-		vim.notify("bvnvim: session " .. session_uuid .. " - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open session transcript buffer (bv-40e)
+		local session_buf = require("bvnvim.buffer.session")
+		session_buf.open(session_uuid)
 	else
-		vim.notify("bvnvim: session list - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open session list buffer (bv-40e)
+		-- Open Telescope sessions picker if available, else notify
+		local ok, _ = pcall(require, "telescope")
+		if ok then
+			vim.cmd("Telescope bvnvim sessions")
+		else
+			vim.notify("bvnvim: install telescope.nvim for session browser", vim.log.levels.INFO)
+		end
 	end
 end
 
