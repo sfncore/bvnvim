@@ -7,10 +7,10 @@ We're building a Neovim plugin that operates on **three content planes** — the
 **What exists:**
 - `bvnvim` rig (sfncore/bvnvim) — empty, ready for plugin code
 - `nvim_config` rig (sfncore/nvim-config, symlinked to `~/.config/nvim/`) — LazyVim setup
-- `claudecode.nvim` — already provides MCP tools for Claude-Neovim integration
+- `claudecode.nvim` rig (coder/claudecode.nvim, prefix `cl-`) — MCP WebSocket server inside nvim, tool registration, selection tracking, diff view. **Foundation for wizard mode.** See `claudecode/mayor/rig/docs/integration-findings.md`
 - `bv` CLI — rich `--robot-*` JSON API (triage, plan, priority, insights, graph, search)
 - `bd` CLI — beads write operations (update, close, create)
-- `pynvim` 0.6.0 — Python RPC client for Neovim (already installed)
+- `neovim/go-client` — Go library for nvim msgpack-RPC (production target for gt integration)
 - `undofile` enabled, persisting to `~/.vim/undodir/`
 - `cchistory` CLI — lists shell command history from Claude Code session logs
 - 89 Claude Code session JSONL files at `~/.claude/projects/*/`
@@ -33,7 +33,8 @@ We're building a Neovim plugin that operates on **three content planes** — the
 |-----|------|------|
 | hq (Dolt) | Formula DB Foundation | Create 12 formula tables, migrate 52 TOMLs into Dolt. **Poured first** — gives version control for all subsequent formula work. |
 | sfgastown | Formula Dolt Backend | Teach `gt formula` to read/write Dolt: loader in `internal/formula/`, execution recording in `internal/cmd/formula.go`, `gt formula sync` command, provisioning update in `embed.go`. |
-| bvnvim | Plugin MVP | Lua plugin: three content planes, wizard mode, telescope pickers |
+| bvnvim | Plugin MVP | Lua plugin: three content planes, MCP tool extensions, telescope pickers |
+| claudecode | MCP Tool Extensions | Register bvnvim tools (beads, formulas, sessions) in claudecode.nvim |
 | nvim_config | Plugin Registration | LazyVim registration file (1 file, depends on bvnvim) |
 
 **Integration branches** — polecats merge to integration, integration merges to main after review:
@@ -408,12 +409,10 @@ Formulas and beads now share the same versioning substrate (Dolt) but live in di
         triage_diff.lua  -- triage proposal diff view
       highlight.lua      -- highlight groups, extmarks (all planes)
       actions.lua        -- status/priority/assignee changes, write-back
-      wizard.lua         -- wizard mode state, RPC handler, sequencer
+      wizard.lua         -- wizard mode state, visual feedback, MCP tool coordination
     telescope/
       _extensions/
         bvnvim.lua       -- telescope picker (beads, formulas, sessions)
-  scripts/
-    wizard_driver.py     -- external Python RPC wizard driver
 ```
 
 Registration in nvim_config:
@@ -643,20 +642,38 @@ Three picker modes:
 
 Registered via `telescope.load_extension("bvnvim")`
 
-### Step 11: Wizard mode (`wizard.lua`, `scripts/wizard_driver.py`)
+### Step 11: Wizard mode via claudecode.nvim MCP (`wizard.lua` + MCP tool extensions)
 
-**Lua side:**
-- `:Beads wizard start` — enables wizard, prints socket path, registers global functions
-- `_G.bvnvim_wizard_exec(commands, delay_ms)` — executes `:norm` commands with `vim.defer_fn` delays
+**Architecture decision (Feb 18, 2026):** Wizard mode uses claudecode.nvim's existing MCP WebSocket instead of a separate pynvim process. Claude IS the wizard — calling MCP tools that drive nvim from inside.
+
+**Two-phase approach:**
+- **MVP**: Register custom MCP tools in claudecode.nvim (fork/patch `tools/init.lua`)
+- **Production**: `neovim/go-client` in the gt binary for native integration
+
+**MVP — MCP tool extensions (in claudecode.nvim `tools/` directory):**
+- `tools/beads_list.lua` — list beads via bd CLI, return structured JSON
+- `tools/beads_show.lua` — show bead detail
+- `tools/beads_update.lua` — update bead fields
+- `tools/formula_list.lua` — list formulas from Dolt
+- `tools/formula_read.lua` — read formula TOML from Dolt
+- `tools/triage_view.lua` — open triage diff in nvim buffer
+- `tools/session_list.lua` — list session transcripts
+- `tools/session_read.lua` — read session transcript
+
+Each tool follows claudecode.nvim's pattern: `schema` (JSON Schema) + `handler` function.
+Registered in `tools/init.lua` via `M.register_all()`.
+
+**Lua side (bvnvim plugin):**
+- `:Beads wizard start` — enables wizard mode, registers visual feedback handlers
 - Cursor trail highlight via extmarks (`BvnvimWizardCursor`)
-- Works across all three planes (beads editing, formula review, session navigation)
+- Two modes: visual (`:norm` + delays via MCP) vs fast (`nvim_buf_set_text` via MCP)
+- Claude calls MCP tools → bvnvim renders results → human watches
 
-**Python driver (wizard_driver.py):**
-- Connects via `pynvim.attach('socket', path=...)`
-- `--demo` mode: navigates through beads, opens detail view (proves visual RPC works)
-- `--update <id> --status <val>` mode: visually navigates to bead, changes status
-- `--fast` mode: instant update via `nvim_buf_set_text` (no animation)
-- `--batch <file.json>` mode: executes sequence of commands from JSON
+**Production target — Go client in gt binary:**
+- `gt formula edit <name>` opens nvim with the right buffer via `neovim/go-client`
+- `gt convoy status` pushes live progress into nvim buffer
+- Polecat completions pop up as nvim notifications
+- Direct msgpack-RPC to nvim socket, no MCP middleware
 
 ### Step 12: LazyVim registration (`nvim_config/lua/plugins/bvnvim.lua`)
 - `dir = "/home/ubuntu/gt/bvnvim/mayor/rig"` (local dev plugin)
@@ -693,7 +710,7 @@ Registered via `telescope.load_extension("bvnvim")`
 12. Accept proposals → `:Beads triage merge` → changes applied
 
 **Cross-plane:**
-13. `:Beads wizard start` → run `python3 wizard_driver.py <socket> --demo` → watch cursor move through beads in real-time
+13. `:Beads wizard start` → Claude calls MCP tools → watch cursor move through beads in real-time
 14. `u` in Neovim — undoes wizard edits
 15. `:UndotreeToggle` — shows all edits in the undo DAG
 
@@ -708,8 +725,8 @@ Registered via `telescope.load_extension("bvnvim")`
 - **Formula editing is native TOML** — enhanced with overlays, acwrite interceptor parses TOML → normalizes into all Dolt tables + updates `raw_toml` + commits
 - **Fixed-column list format** — enables wizard targeting by column position
 - **`buftype = "acwrite"`** — for beads detail view: intercepts `:w` for write-back while keeping undo tree working
-- **pynvim for wizard driver** — already installed, runs as separate process (AI agent spawns it)
-- **Two modes**: wizard (visual `:norm`) vs fast (`nvim_buf_set_text`) — same edits, different presentation
+- **claudecode.nvim for wizard mode** — Claude connects via existing MCP WebSocket, calls custom bvnvim tools registered in claudecode's `tools/` directory. No separate process needed. MVP: fork/patch claudecode.nvim. Production: `neovim/go-client` in gt binary.
+- **Two modes**: wizard (visual `:norm` via MCP) vs fast (`nvim_buf_set_text` via MCP) — same edits, different presentation
 - **Depends on sfncore/beads_viewer fork** — need to pull Dolt integration commits before triage features work
 - **Session exploration is a discrete task** — the JSONL schema and correlation logic need research before full implementation; MVP starts with basic transcript extraction
 
