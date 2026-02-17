@@ -13,8 +13,8 @@ We're building a Neovim plugin that operates on **three content planes** — the
 - `neovim/go-client` — Go library for nvim msgpack-RPC (production target for gt integration)
 - `undofile` enabled, persisting to `~/.vim/undodir/`
 - `cchistory` CLI — lists shell command history from Claude Code session logs
-- 89 Claude Code session JSONL files at `~/.claude/projects/*/`
-- 52 formula TOMLs at `~/gt/.beads/formulas/`
+- 1,700+ Claude Code session JSONL files across all projects at `~/.claude/projects/*/`
+- 50+ formula TOMLs at `~/gt/.beads/formulas/` (all formulas in that directory)
 
 **Critical — beadswrangler's Dolt integration (sfncore/beads_viewer fork, not yet upstream):**
 - `pkg/loader/dolt.go` — **Dolt SQL backend** for live beads loading (queries issues, deps, labels, comments directly from Dolt server at 127.0.0.1:3307)
@@ -31,7 +31,7 @@ We're building a Neovim plugin that operates on **three content planes** — the
 
 | Rig | Epic | What |
 |-----|------|------|
-| hq (Dolt) | Formula DB Foundation | Create 12 formula tables, migrate 52 TOMLs into Dolt. **Poured first** — gives version control for all subsequent formula work. |
+| hq (Dolt) | Formula DB Foundation | Create 14 formula tables, migrate all formulas from `~/gt/.beads/formulas/` into Dolt. **Poured first** — gives version control for all subsequent formula work. |
 | sfgastown | Formula Dolt Backend | Teach `gt formula` to read/write Dolt: loader in `internal/formula/`, execution recording in `internal/cmd/formula.go`, `gt formula sync` command, provisioning update in `embed.go`. |
 | bvnvim | Plugin MVP | Lua plugin: three content planes, MCP tool extensions, telescope pickers |
 | claudecode | MCP Tool Extensions | Register bvnvim tools (beads, formulas, sessions) in claudecode.nvim |
@@ -49,7 +49,7 @@ Dolt schema work (hq database) doesn't use git branches — it uses Dolt branche
 
 **Sequencing**: DB first → basic plugin → iterate with the tool itself.
 
-1. **Pour the DB** (hq Dolt) — create schema on a Dolt branch, migrate 52 TOMLs, review, merge to main. Once formulas are in Dolt, every subsequent change is versioned. This is the foundation.
+1. **Pour the DB** (hq Dolt) — create schema on a Dolt branch, migrate all formulas from `~/gt/.beads/formulas/`, review, merge to main. Once formulas are in Dolt, every subsequent change is versioned. This is the foundation.
 2. **Build basic bvnvim** (integration branch) — enough to list/view beads, view formulas from Dolt, open sessions. Early read-only version. Polecats work on feature branches → merge to `integration/bvnvim-mvp`.
 3. **Use bvnvim + beadswrangler** to review created beads and update formulas via Dolt triage branches. Bootstrap the tool with the tool.
 4. **Iterate** — add wizard mode, triage diff, execution history as the formula system matures. Continue on integration branch until stable, then merge to main.
@@ -70,7 +70,7 @@ The audit trail runs across three independent versioning systems. Each plane has
 
 **Storage**: Claude Code session JSONL files
 - Location: `~/.claude/projects/<project-hash>/<session-uuid>.jsonl`
-- 89 sessions across all projects (mayor, beadswrangler, crew, rigs)
+- 1,700+ sessions across all projects (mayor, beadswrangler, crew, rigs)
 - Format: One JSON object per line, keyed by `type`:
   - `type=user` → `entry.message.content` (string, the human's message)
   - `type=assistant` → `entry.message.content` (array of text/tool_use blocks)
@@ -113,9 +113,41 @@ The audit trail runs across three independent versioning systems. Each plane has
 - **Source of truth**: `hq` database at `127.0.0.1:3307` — formulas are town-level, not per-rig
 - **Filesystem becomes cache**: `~/gt/.beads/formulas/` regenerated from Dolt on `gt install` or `gt formula sync`
 - `.installed.json` becomes redundant — Dolt IS the version tracker
-- **Migration**: Import 52 existing TOMLs → parse and normalize into Dolt tables
+- **Migration**: Import all existing TOMLs from `~/gt/.beads/formulas/` → parse and normalize into Dolt tables
 - **Existing code**: `internal/formula/parser.go` parses TOML via `github.com/BurntSushi/toml`; `embed.go` handles provisioning; `cmd/formula.go` runs CLI commands. Parser needs a Dolt loading path alongside the filesystem path.
 - **Branch workflows**: Draft formula changes on a Dolt branch, review diffs in nvim (`dolt diff main..draft`), merge when approved. Same pattern as beadswrangler's triage branches for beads.
+
+**Schema — Phase 0: Planning Documents (specs/PRDs)**
+
+```sql
+-- ═══════════════════════════════════════════════════════════
+-- Specs/PRDs that drive formula creation
+-- Phase 0: before the DNA, there's the plan
+-- ═══════════════════════════════════════════════════════════
+CREATE TABLE formula_specs (
+    id            VARCHAR(128) PRIMARY KEY,   -- slug: "bvnvim-mvp-spec"
+    formula_name  VARCHAR(128),               -- links to formula (null if pre-formula)
+    title         VARCHAR(256) NOT NULL,
+    spec_type     VARCHAR(32) NOT NULL,       -- prd/spec/plan/research/architecture
+    content       LONGTEXT,                   -- raw markdown
+    status        VARCHAR(32) DEFAULT 'draft', -- draft/review/approved/superseded
+    author        VARCHAR(255),               -- agent or human
+    session_id    VARCHAR(255),               -- claude session that produced it
+    epic_bead_id  VARCHAR(255),               -- link to epic bead
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (formula_name) REFERENCES formulas(name)
+);
+
+-- Which rigs does this spec touch
+CREATE TABLE formula_spec_rigs (
+    spec_id   VARCHAR(128) NOT NULL,
+    rig_name  VARCHAR(64) NOT NULL,
+    role      VARCHAR(32),                    -- owner/consumer/dependency
+    PRIMARY KEY (spec_id, rig_name),
+    FOREIGN KEY (spec_id) REFERENCES formula_specs(id)
+);
+```
 
 **Schema — Phase 1: Creation/Definition (the DNA)**
 
@@ -318,8 +350,8 @@ CREATE TABLE formula_run_items (
 5. Updates filesystem cache
 
 **Implementation tasks**:
-1. Dolt schema creation — create all 12 formula tables in `hq` database
-2. Migration script — parse 52 existing TOMLs, normalize into all tables (formulas + steps + deps + vars + units + prompts + output + synthesis + rig_targets), preserve `raw_toml`
+1. Dolt schema creation — create all 14 formula tables in `hq` database
+2. Migration script — parse all existing TOMLs from `~/gt/.beads/formulas/`, normalize into all tables (formulas + steps + deps + vars + units + prompts + output + synthesis + rig_targets), preserve `raw_toml`
 3. Formula data module — Dolt SQL read/write for both definition (DNA) and execution (cooked & poured) phases, filesystem fallback
 4. Formula buffer — TOML editing with step graph overlay, acwrite interceptor normalizes to Dolt on save
 5. Execution history view — show formula runs, per-step bead mapping, clickable bead IDs
@@ -478,9 +510,14 @@ Uses `vim.fn.system()` for sync, `vim.fn.jobstart()` for async.
 - `M.complete_run(run_id, status)` — UPDATE `formula_runs` with completion
 
 **Access:**
-- Dolt SQL via `vim.fn.system('dolt --host 127.0.0.1 --port 3307 ...')` or `vim.fn.jobstart()` for async
+- Dolt SQL via MySQL client: `vim.fn.system('mysql -h 127.0.0.1 -P 3307 -u root hq -N -B -e "..."')` or `vim.fn.jobstart()` for async (note: `dolt` CLI does not support `--host`/`--port` flags; use the MySQL wire protocol client instead)
 - Fallback: filesystem read from `~/gt/.beads/formulas/` if Dolt unavailable
 - TOML parsing: `vim.fn.system("toml2json ...")` or a pure-lua TOML parser for client-side validation
+
+**Dolt availability & fallback strategy:**
+1. **Startup probe**: On `M.setup()`, attempt `mysql -h 127.0.0.1 -P 3307 -u root -e "SELECT 1"`. Cache result in `M.dolt_available` (boolean). If unreachable, log a warning and set `M.dolt_available = false`.
+2. **Health check for formula tables**: If probe succeeds, run `SELECT COUNT(*) FROM hq.formulas` to confirm the formula schema exists. If the table is missing (pre-migration), fall back to filesystem even though Dolt is running.
+3. **Graceful filesystem fallback**: When `M.dolt_available == false` or table health check fails, all read functions (`M.list()`, `M.read()`, etc.) transparently fall back to scanning `~/gt/.beads/formulas/*.formula.toml` from disk. Write functions (`M.save()`, `M.create()`, `M.delete()`) return an error explaining Dolt is required for writes. This ensures the plugin is usable in read-only mode even when Dolt is down or the schema has not been migrated yet.
 
 ### Step 4: Data layer — Sessions (`data/sessions.lua`)
 
@@ -703,16 +740,16 @@ Registered in `tools/init.lua` via `M.register_all()`.
 10. `:Beads formula diff <name>` → structural diff between Dolt branches
 
 **Plane 3 — Beads:**
-8. `:Beads list` — shows formatted table of beads with colors
-9. `<CR>` on a bead — opens detail view
-10. `s` on a bead line — changes status via select menu, persists via `bd`
-11. `:Beads triage sfgastown` — opens triage diff view with proposals
-12. Accept proposals → `:Beads triage merge` → changes applied
+11. `:Beads list` — shows formatted table of beads with colors
+12. `<CR>` on a bead — opens detail view
+13. `s` on a bead line — changes status via select menu, persists via `bd`
+14. `:Beads triage sfgastown` — opens triage diff view with proposals
+15. Accept proposals → `:Beads triage merge` → changes applied
 
 **Cross-plane:**
-13. `:Beads wizard start` → Claude calls MCP tools → watch cursor move through beads in real-time
-14. `u` in Neovim — undoes wizard edits
-15. `:UndotreeToggle` — shows all edits in the undo DAG
+16. `:Beads wizard start` → Claude calls MCP tools → watch cursor move through beads in real-time
+17. `u` in Neovim — undoes wizard edits
+18. `:UndotreeToggle` — shows all edits in the undo DAG
 
 ## Key Design Decisions
 
@@ -720,7 +757,7 @@ Registered in `tools/init.lua` via `M.register_all()`.
 - **Two-tier reads for beads**: `bd` for raw lists (fast), `bv --robot-*` for smart analysis (triage, plan, search, insights). `bd` for single writes, Dolt branch triage for bulk.
 - **Dolt branch workflow for AI bulk edits** — AI works on a triage branch (beadswrangler's `pkg/triage/branch.go`), proposes changes, human reviews diffs in nvim, then merges. No direct bulk mutations.
 - **Session transcripts are read-only** — append-only audit logs, never mutated from nvim
-- **Formulas stored in Dolt (normalized + raw)** — 12 tables in `hq` database: `formulas` (with `raw_toml`), `formula_steps`, `formula_step_deps`, `formula_vars`, `formula_units`, `formula_prompts`, `formula_output`, `formula_synthesis`, `formula_synthesis_deps`, `formula_rig_targets`, `formula_runs`, `formula_run_items`. Normalized tables enable structural diffs and cross-formula queries; `raw_toml` enables faithful round-trip editing. Filesystem becomes cache.
+- **Formulas stored in Dolt (normalized + raw)** — 14 tables in `hq` database: `formulas` (with `raw_toml`), `formula_steps`, `formula_step_deps`, `formula_vars`, `formula_units`, `formula_prompts`, `formula_output`, `formula_synthesis`, `formula_synthesis_deps`, `formula_rig_targets`, `formula_runs`, `formula_run_items`. Normalized tables enable structural diffs and cross-formula queries; `raw_toml` enables faithful round-trip editing. Filesystem becomes cache.
 - **Two-phase formula tracking** — Phase 1 (DNA): formula definition with rig targets and source repo. Phase 2 (cooked & poured): execution history linking formula runs → epic beads → per-step/leg beads → agent sessions. Full audit circle.
 - **Formula editing is native TOML** — enhanced with overlays, acwrite interceptor parses TOML → normalizes into all Dolt tables + updates `raw_toml` + commits
 - **Fixed-column list format** — enables wizard targeting by column position
