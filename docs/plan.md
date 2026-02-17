@@ -32,6 +32,7 @@ We're building a Neovim plugin that operates on **three content planes** — the
 | Rig | Epic | What |
 |-----|------|------|
 | hq (Dolt) | Formula DB Foundation | Create 12 formula tables, migrate 52 TOMLs into Dolt. **Poured first** — gives version control for all subsequent formula work. |
+| sfgastown | Formula Dolt Backend | Teach `gt formula` to read/write Dolt: loader in `internal/formula/`, execution recording in `internal/cmd/formula.go`, `gt formula sync` command, provisioning update in `embed.go`. |
 | bvnvim | Plugin MVP | Lua plugin: three content planes, wizard mode, telescope pickers |
 | nvim_config | Plugin Registration | LazyVim registration file (1 file, depends on bvnvim) |
 
@@ -39,6 +40,7 @@ We're building a Neovim plugin that operates on **three content planes** — the
 
 | Rig | Integration branch | Base |
 |-----|--------------------|------|
+| sfgastown | `integration/formula-dolt-backend` | `main` |
 | bvnvim | `integration/bvnvim-mvp` | `main` |
 | nvim_config | `integration/bvnvim-registration` | `main` |
 
@@ -52,7 +54,6 @@ Dolt schema work (hq database) doesn't use git branches — it uses Dolt branche
 4. **Iterate** — add wizard mode, triage diff, execution history as the formula system matures. Continue on integration branch until stable, then merge to main.
 
 **Out of scope (future):**
-- sfgastown `gt formula run` changes (Phase 2 execution tracking — `formula_runs` tables created but not auto-populated yet)
 - Cross-rig formula orchestration (sf_workflow patterns still early)
 - Project/rig switching orchestration (see `docs/project-switching.md`)
 
