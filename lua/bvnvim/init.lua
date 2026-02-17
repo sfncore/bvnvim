@@ -171,11 +171,16 @@ end
 ---@param formula_name? string Specific formula to view
 function M.cmd_formula(formula_name)
 	if formula_name then
-		vim.notify("bvnvim: formula " .. formula_name .. " - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open formula detail buffer (bv-kak)
+		local formula_buf = require("bvnvim.buffer.formula")
+		formula_buf.open(formula_name)
 	else
-		vim.notify("bvnvim: formula list - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open formula list buffer (bv-kak)
+		-- Open Telescope formulas picker if available
+		local ok, _ = pcall(require, "telescope")
+		if ok then
+			vim.cmd("Telescope bvnvim formulas")
+		else
+			vim.notify("bvnvim: install telescope.nvim for formula browser", vim.log.levels.INFO)
+		end
 	end
 end
 
@@ -218,8 +223,8 @@ function M.cmd_triage(rig_name)
 		vim.notify("bvnvim: triage requires a rig name (could not auto-detect)", vim.log.levels.ERROR)
 		return
 	end
-	vim.notify("bvnvim: triage " .. rig_name .. " - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open triage diff buffer (bv-e39)
+	local actions = require("bvnvim.actions")
+	actions.open_triage(rig_name)
 end
 
 ---Refresh all caches

@@ -199,6 +199,9 @@ function M.open(opts)
 
 	vim.api.nvim_set_current_buf(bufnr)
 	setup_keymaps(bufnr, opts)
+	-- Install write-back actions (s/p/a keymaps)
+	local actions = require("bvnvim.actions")
+	actions.apply_to_list(bufnr)
 	M.refresh(bufnr, opts)
 end
 
