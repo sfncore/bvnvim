@@ -150,7 +150,7 @@ end
 ---List beads in current rig
 function M.cmd_list()
 	vim.notify("bvnvim: list - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open beads list buffer
+	-- TODO: Open beads list buffer (bv-lj7)
 end
 
 ---Show bead detail
@@ -161,7 +161,7 @@ function M.cmd_show(bead_id)
 		return
 	end
 	vim.notify("bvnvim: show " .. bead_id .. " - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open bead detail buffer
+	-- TODO: Open bead detail buffer (bv-lj7)
 end
 
 ---Browse or view formulas
@@ -169,10 +169,10 @@ end
 function M.cmd_formula(formula_name)
 	if formula_name then
 		vim.notify("bvnvim: formula " .. formula_name .. " - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open formula detail buffer
+		-- TODO: Open formula detail buffer (bv-kak)
 	else
 		vim.notify("bvnvim: formula list - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open formula list buffer
+		-- TODO: Open formula list buffer (bv-kak)
 	end
 end
 
@@ -181,10 +181,10 @@ end
 function M.cmd_session(session_uuid)
 	if session_uuid then
 		vim.notify("bvnvim: session " .. session_uuid .. " - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open session transcript buffer
+		-- TODO: Open session transcript buffer (bv-40e)
 	else
 		vim.notify("bvnvim: session list - not yet implemented", vim.log.levels.INFO)
-		-- TODO: Open session list buffer
+		-- TODO: Open session list buffer (bv-40e)
 	end
 end
 
@@ -193,10 +193,10 @@ end
 function M.cmd_wizard(action)
 	if action == "start" then
 		vim.notify("bvnvim: wizard mode started", vim.log.levels.INFO)
-		-- TODO: Enable wizard mode
+		-- TODO: Enable wizard mode (bv-c7s)
 	elseif action == "stop" then
 		vim.notify("bvnvim: wizard mode stopped", vim.log.levels.INFO)
-		-- TODO: Disable wizard mode
+		-- TODO: Disable wizard mode (bv-c7s)
 	else
 		vim.notify("bvnvim: wizard requires 'start' or 'stop'", vim.log.levels.ERROR)
 	end
@@ -211,7 +211,7 @@ function M.cmd_triage(rig_name)
 		return
 	end
 	vim.notify("bvnvim: triage " .. rig_name .. " - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open triage diff buffer
+	-- TODO: Open triage diff buffer (bv-e39)
 end
 
 ---Refresh all caches
