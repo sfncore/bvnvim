@@ -152,8 +152,8 @@ end
 
 ---List beads in current rig
 function M.cmd_list()
-	vim.notify("bvnvim: list - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open beads list buffer (bv-lj7)
+	local list_buf = require("bvnvim.buffer.beads_list")
+	list_buf.open({ rig = M.state.current_rig })
 end
 
 ---Show bead detail
@@ -163,8 +163,8 @@ function M.cmd_show(bead_id)
 		vim.notify("bvnvim: show requires a bead ID", vim.log.levels.ERROR)
 		return
 	end
-	vim.notify("bvnvim: show " .. bead_id .. " - not yet implemented", vim.log.levels.INFO)
-	-- TODO: Open bead detail buffer (bv-lj7)
+	local detail_buf = require("bvnvim.buffer.beads_detail")
+	detail_buf.open(bead_id)
 end
 
 ---Browse or view formulas
