@@ -25,6 +25,30 @@ We're building a Neovim plugin that operates on **three content planes** — the
 
 ---
 
+## Scope & Sequencing
+
+**Per-rig epics** — work is filed in the rig that owns the code:
+
+| Rig | Epic | What |
+|-----|------|------|
+| hq (Dolt) | Formula DB Foundation | Create 12 formula tables, migrate 52 TOMLs into Dolt. **Poured first** — gives version control for all subsequent formula work. |
+| bvnvim | Plugin MVP | Lua plugin: three content planes, wizard mode, telescope pickers |
+| nvim_config | Plugin Registration | LazyVim registration file (1 file, depends on bvnvim) |
+
+**Sequencing**: DB first → basic plugin → iterate with the tool itself.
+
+1. **Pour the DB** (hq) — schema + migration. Once formulas are in Dolt, every subsequent change is versioned. This is the foundation.
+2. **Build basic bvnvim** — enough to list/view beads, view formulas from Dolt, open sessions. Early read-only version.
+3. **Use bvnvim + beadswrangler** to review created beads and update formulas via Dolt triage branches. Bootstrap the tool with the tool.
+4. **Iterate** — add wizard mode, triage diff, execution history as the formula system matures.
+
+**Out of scope (future):**
+- sfgastown `gt formula run` changes (Phase 2 execution tracking — `formula_runs` tables created but not auto-populated yet)
+- Cross-rig formula orchestration (sf_workflow patterns still early)
+- Project/rig switching orchestration (see `docs/project-switching.md`)
+
+---
+
 ## The Three Content Planes
 
 The audit trail runs across three independent versioning systems. Each plane has different storage, different access patterns, and different display needs in Neovim.
