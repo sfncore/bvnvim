@@ -160,6 +160,9 @@
 {"issue_id":"hq-7v0d","label":"grafana"}
 {"issue_id":"hq-7v0d","label":"otel"}
 {"issue_id":"hq-7v0d","label":"phase-0"}
+{"issue_id":"hq-8897m","label":"from:sfgastown/witness"}
+{"issue_id":"hq-8897m","label":"gt:message"}
+{"issue_id":"hq-8897m","label":"read"}
 {"issue_id":"hq-8koo","label":"dashboard"}
 {"issue_id":"hq-8koo","label":"grafana"}
 {"issue_id":"hq-8koo","label":"otel"}
