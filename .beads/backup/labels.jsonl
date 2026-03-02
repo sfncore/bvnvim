@@ -251,6 +251,9 @@
 {"issue_id":"hq-dcxx","label":"delivery:pending"}
 {"issue_id":"hq-dcxx","label":"from:gastown/polecats/Toast"}
 {"issue_id":"hq-dcxx","label":"gt:message"}
+{"issue_id":"hq-ddna9","label":"from:sfgastown/witness"}
+{"issue_id":"hq-ddna9","label":"gt:message"}
+{"issue_id":"hq-ddna9","label":"read"}
 {"issue_id":"hq-deacon","label":"gt:agent"}
 {"issue_id":"hq-dh31","label":"delivery-acked-at:2026-02-28T10:42:09Z"}
 {"issue_id":"hq-dh31","label":"delivery-acked-by:sfgastown/witness"}
