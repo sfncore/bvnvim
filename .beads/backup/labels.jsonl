@@ -4,6 +4,9 @@
 {"issue_id":"hq-au5","label":"from:sf_workflows/witness"}
 {"issue_id":"hq-au5","label":"gt:message"}
 {"issue_id":"hq-deacon","label":"gt:agent"}
+{"issue_id":"hq-dvo","label":"from:deacon/"}
+{"issue_id":"hq-dvo","label":"gt:message"}
+{"issue_id":"hq-dvo","label":"read"}
 {"issue_id":"hq-et3","label":"from:node0/witness"}
 {"issue_id":"hq-et3","label":"gt:message"}
 {"issue_id":"hq-i2v","label":"delivery-acked-at:2026-03-02T09:37:16Z"}
@@ -53,6 +56,14 @@
 {"issue_id":"hq-wisp-b6box","label":"from:franken_whisper/witness"}
 {"issue_id":"hq-wisp-b6box","label":"gt:message"}
 {"issue_id":"hq-wisp-b6box","label":"thread:thread-4554d4eee281"}
+{"issue_id":"hq-wisp-cgosan","label":"delivery-acked-at:2026-03-02T12:30:57Z"}
+{"issue_id":"hq-wisp-cgosan","label":"delivery-acked-by:mayor/"}
+{"issue_id":"hq-wisp-cgosan","label":"delivery:acked"}
+{"issue_id":"hq-wisp-cgosan","label":"delivery:pending"}
+{"issue_id":"hq-wisp-cgosan","label":"from:deacon/"}
+{"issue_id":"hq-wisp-cgosan","label":"gt:message"}
+{"issue_id":"hq-wisp-cgosan","label":"read"}
+{"issue_id":"hq-wisp-cgosan","label":"thread:thread-faded032b220"}
 {"issue_id":"hq-wisp-xrh44","label":"delivery:pending"}
 {"issue_id":"hq-wisp-xrh44","label":"from:protocol/witness"}
 {"issue_id":"hq-wisp-xrh44","label":"gt:message"}
