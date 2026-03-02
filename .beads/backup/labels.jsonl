@@ -154,6 +154,7 @@
 {"issue_id":"hq-6pia6","label":"dashboard"}
 {"issue_id":"hq-7fagh","label":"from:sfgastown/witness"}
 {"issue_id":"hq-7fagh","label":"gt:message"}
+{"issue_id":"hq-7fagh","label":"read"}
 {"issue_id":"hq-7tj4","label":"delivery-acked-at:2026-02-24T10:40:04Z"}
 {"issue_id":"hq-7tj4","label":"delivery-acked-by:sfgastown/witness"}
 {"issue_id":"hq-7tj4","label":"delivery:acked"}
@@ -557,6 +558,9 @@
 {"issue_id":"hq-qr7u","label":"gt:escalation"}
 {"issue_id":"hq-qr7u","label":"resolved"}
 {"issue_id":"hq-qr7u","label":"severity:high"}
+{"issue_id":"hq-rc87t","label":"from:sfgastown/witness"}
+{"issue_id":"hq-rc87t","label":"gt:message"}
+{"issue_id":"hq-rc87t","label":"read"}
 {"issue_id":"hq-rd8xy","label":"from:lora_forge/witness"}
 {"issue_id":"hq-rd8xy","label":"gt:message"}
 {"issue_id":"hq-rd8xy","label":"read"}
@@ -1097,6 +1101,9 @@
 {"issue_id":"hq-yjcic","label":"from:sfgastown/witness"}
 {"issue_id":"hq-yjcic","label":"gt:message"}
 {"issue_id":"hq-yjcic","label":"read"}
+{"issue_id":"hq-yriov","label":"from:sfgastown/witness"}
+{"issue_id":"hq-yriov","label":"gt:message"}
+{"issue_id":"hq-yriov","label":"read"}
 {"issue_id":"hq-z1n6b","label":"dashboard"}
 {"issue_id":"hq-zlep","label":"delivery-acked-at:2026-02-24T12:14:52Z"}
 {"issue_id":"hq-zlep","label":"delivery-acked-by:sfgastown/witness"}
