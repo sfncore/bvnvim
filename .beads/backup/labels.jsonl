@@ -1,3 +1,9 @@
+{"issue_id":"bv-rig-bvnvim","label":"gt:rig"}
+{"issue_id":"bv-rig-bvnvim","label":"status:docked"}
+{"issue_id":"fw-rig-franken_whisper","label":"gt:rig"}
+{"issue_id":"fw-rig-franken_whisper","label":"status:docked"}
+{"issue_id":"hi-rig-hivemind","label":"gt:rig"}
+{"issue_id":"hi-rig-hivemind","label":"status:docked"}
 {"issue_id":"hq-05ihl","label":"dashboard"}
 {"issue_id":"hq-0day","label":"community"}
 {"issue_id":"hq-0day","label":"logging"}
@@ -1124,3 +1130,8 @@
 {"issue_id":"hq-zlwn","label":"infrastructure"}
 {"issue_id":"hq-zlwn","label":"otel"}
 {"issue_id":"hq-zlwn","label":"phase-0"}
+{"issue_id":"no-rig-node0","label":"gt:rig"}
+{"issue_id":"no-rig-node0","label":"status:docked"}
+{"issue_id":"pr-rig-protocol","label":"gt:rig"}
+{"issue_id":"sw-rig-sf_workflows","label":"gt:rig"}
+{"issue_id":"sw-rig-sf_workflows","label":"status:docked"}
