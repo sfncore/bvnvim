@@ -9,6 +9,9 @@
 {"issue_id":"hq-0o9","label":"from:sfgastown/witness"}
 {"issue_id":"hq-0o9","label":"gt:message"}
 {"issue_id":"hq-0o9","label":"read"}
+{"issue_id":"hq-0pwhe","label":"from:sfgastown/witness"}
+{"issue_id":"hq-0pwhe","label":"gt:message"}
+{"issue_id":"hq-0pwhe","label":"read"}
 {"issue_id":"hq-10kw","label":"claude"}
 {"issue_id":"hq-10kw","label":"otel"}
 {"issue_id":"hq-10kw","label":"phase-0"}
@@ -208,6 +211,9 @@
 {"issue_id":"hq-baqx","label":"otel"}
 {"issue_id":"hq-baqx","label":"phase-1"}
 {"issue_id":"hq-bja1b","label":"dashboard"}
+{"issue_id":"hq-c90ie","label":"from:sfgastown/witness"}
+{"issue_id":"hq-c90ie","label":"gt:message"}
+{"issue_id":"hq-c90ie","label":"read"}
 {"issue_id":"hq-c95p","label":"delivery-acked-at:2026-02-24T11:53:43Z"}
 {"issue_id":"hq-c95p","label":"delivery-acked-by:sfgastown/witness"}
 {"issue_id":"hq-c95p","label":"delivery:acked"}
@@ -289,6 +295,9 @@
 {"issue_id":"hq-f5p4","label":"delivery:pending"}
 {"issue_id":"hq-f5p4","label":"from:sfgastown/alpha"}
 {"issue_id":"hq-f5p4","label":"gt:message"}
+{"issue_id":"hq-fba5c","label":"from:sfgastown/witness"}
+{"issue_id":"hq-fba5c","label":"gt:message"}
+{"issue_id":"hq-fba5c","label":"read"}
 {"issue_id":"hq-fdxj","label":"dashboard"}
 {"issue_id":"hq-fdxj","label":"grafana"}
 {"issue_id":"hq-fdxj","label":"otel"}
