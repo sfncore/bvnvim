@@ -306,6 +306,9 @@
 {"issue_id":"hq-gs09","label":"grafana"}
 {"issue_id":"hq-gs09","label":"otel"}
 {"issue_id":"hq-gs09","label":"testing"}
+{"issue_id":"hq-h9eph","label":"from:sfgastown/witness"}
+{"issue_id":"hq-h9eph","label":"gt:message"}
+{"issue_id":"hq-h9eph","label":"read"}
 {"issue_id":"hq-hnh5","label":"delivery-acked-at:2026-02-24T11:05:09Z"}
 {"issue_id":"hq-hnh5","label":"delivery-acked-by:sfgastown/witness"}
 {"issue_id":"hq-hnh5","label":"delivery:acked"}
@@ -384,6 +387,9 @@
 {"issue_id":"hq-ku5","label":"from:sfgastown/witness"}
 {"issue_id":"hq-ku5","label":"gt:message"}
 {"issue_id":"hq-ku5","label":"read"}
+{"issue_id":"hq-lbiqs","label":"from:sfgastown/witness"}
+{"issue_id":"hq-lbiqs","label":"gt:message"}
+{"issue_id":"hq-lbiqs","label":"read"}
 {"issue_id":"hq-lduv","label":"delivery-acked-at:2026-02-24T10:54:44Z"}
 {"issue_id":"hq-lduv","label":"delivery-acked-by:sfgastown/witness"}
 {"issue_id":"hq-lduv","label":"delivery:acked"}
@@ -1039,6 +1045,8 @@
 {"issue_id":"hq-ycr","label":"from:sf_workflows/witness"}
 {"issue_id":"hq-ycr","label":"gt:message"}
 {"issue_id":"hq-yhutt","label":"dashboard"}
+{"issue_id":"hq-yjcic","label":"from:sfgastown/witness"}
+{"issue_id":"hq-yjcic","label":"gt:message"}
 {"issue_id":"hq-z1n6b","label":"dashboard"}
 {"issue_id":"hq-zlep","label":"delivery-acked-at:2026-02-24T12:14:52Z"}
 {"issue_id":"hq-zlep","label":"delivery-acked-by:sfgastown/witness"}
