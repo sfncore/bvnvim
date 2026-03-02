@@ -14,6 +14,8 @@
 {"issue_id":"hq-t5m","label":"from:claudecode/refinery"}
 {"issue_id":"hq-t5m","label":"gt:message"}
 {"issue_id":"hq-t5m","label":"read"}
+{"issue_id":"hq-udb","label":"from:sfgastown/witness"}
+{"issue_id":"hq-udb","label":"gt:message"}
 {"issue_id":"hq-wisp-298y","label":"gt:escalation"}
 {"issue_id":"hq-wisp-298y","label":"severity:high"}
 {"issue_id":"hq-wisp-5j9h7","label":"delivery-acked-at:2026-03-02T10:10:34Z"}
@@ -22,6 +24,7 @@
 {"issue_id":"hq-wisp-5j9h7","label":"delivery:pending"}
 {"issue_id":"hq-wisp-5j9h7","label":"from:franken_whisper/witness"}
 {"issue_id":"hq-wisp-5j9h7","label":"gt:message"}
+{"issue_id":"hq-wisp-5j9h7","label":"read"}
 {"issue_id":"hq-wisp-5j9h7","label":"thread:thread-5147b037c108"}
 {"issue_id":"hq-wisp-644xq","label":"delivery-acked-at:2026-03-02T09:44:20Z"}
 {"issue_id":"hq-wisp-644xq","label":"delivery-acked-by:mayor/"}
@@ -39,6 +42,13 @@
 {"issue_id":"hq-wisp-b5ud5","label":"gt:message"}
 {"issue_id":"hq-wisp-b5ud5","label":"read"}
 {"issue_id":"hq-wisp-b5ud5","label":"thread:thread-fe9ccb780da0"}
+{"issue_id":"hq-wisp-b6box","label":"delivery-acked-at:2026-03-02T10:11:51Z"}
+{"issue_id":"hq-wisp-b6box","label":"delivery-acked-by:franken_whisper/witness"}
+{"issue_id":"hq-wisp-b6box","label":"delivery:acked"}
+{"issue_id":"hq-wisp-b6box","label":"delivery:pending"}
+{"issue_id":"hq-wisp-b6box","label":"from:franken_whisper/witness"}
+{"issue_id":"hq-wisp-b6box","label":"gt:message"}
+{"issue_id":"hq-wisp-b6box","label":"thread:thread-4554d4eee281"}
 {"issue_id":"hq-wisp-xrh44","label":"delivery:pending"}
 {"issue_id":"hq-wisp-xrh44","label":"from:protocol/witness"}
 {"issue_id":"hq-wisp-xrh44","label":"gt:message"}
