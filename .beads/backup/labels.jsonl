@@ -610,6 +610,9 @@
 {"issue_id":"hq-vd19","label":"delivery:pending"}
 {"issue_id":"hq-vd19","label":"from:sfgastown/polecats/obsidian"}
 {"issue_id":"hq-vd19","label":"gt:message"}
+{"issue_id":"hq-vz8p2","label":"from:sfgastown/witness"}
+{"issue_id":"hq-vz8p2","label":"gt:message"}
+{"issue_id":"hq-vz8p2","label":"read"}
 {"issue_id":"hq-wisp-0l7tp","label":"delivery-acked-at:2026-02-28T14:34:22Z"}
 {"issue_id":"hq-wisp-0l7tp","label":"delivery-acked-by:lora_forge/witness"}
 {"issue_id":"hq-wisp-0l7tp","label":"delivery:acked"}
