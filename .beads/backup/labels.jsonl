@@ -4,6 +4,9 @@
 {"issue_id":"hq-au5","label":"from:sf_workflows/witness"}
 {"issue_id":"hq-au5","label":"gt:message"}
 {"issue_id":"hq-deacon","label":"gt:agent"}
+{"issue_id":"hq-die","label":"from:deacon/"}
+{"issue_id":"hq-die","label":"gt:message"}
+{"issue_id":"hq-die","label":"read"}
 {"issue_id":"hq-dvo","label":"from:deacon/"}
 {"issue_id":"hq-dvo","label":"gt:message"}
 {"issue_id":"hq-dvo","label":"read"}
