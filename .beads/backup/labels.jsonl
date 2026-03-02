@@ -402,6 +402,9 @@
 {"issue_id":"hq-jv1f","label":"delivery:pending"}
 {"issue_id":"hq-jv1f","label":"from:sfgastown/alpha"}
 {"issue_id":"hq-jv1f","label":"gt:message"}
+{"issue_id":"hq-kbly2","label":"from:sfgastown/witness"}
+{"issue_id":"hq-kbly2","label":"gt:message"}
+{"issue_id":"hq-kbly2","label":"read"}
 {"issue_id":"hq-kh55d","label":"delivery-acked-at:2026-02-28T12:20:34Z"}
 {"issue_id":"hq-kh55d","label":"delivery-acked-by:sfgastown/witness"}
 {"issue_id":"hq-kh55d","label":"delivery:acked"}
