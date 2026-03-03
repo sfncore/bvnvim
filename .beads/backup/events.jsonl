@@ -1,0 +1,2 @@
+{"actor":"mayor","comment":null,"created_at":"2026-03-03T15:29:56Z","event_type":"created","id":1,"issue_id":"bv-rig-bvnvim","new_value":"","old_value":""}
+{"actor":"mayor","comment":"Added label: gt:rig","created_at":"2026-03-03T15:29:56Z","event_type":"label_added","id":2,"issue_id":"bv-rig-bvnvim","new_value":null,"old_value":null}
