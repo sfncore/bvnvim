@@ -453,6 +453,9 @@
 {"issue_id":"hq-losu","label":"delivery:pending"}
 {"issue_id":"hq-losu","label":"from:sfgastown/polecats/onyx"}
 {"issue_id":"hq-losu","label":"gt:message"}
+{"issue_id":"hq-lqf8t","label":"from:sfgastown/witness"}
+{"issue_id":"hq-lqf8t","label":"gt:message"}
+{"issue_id":"hq-lqf8t","label":"read"}
 {"issue_id":"hq-m2rtj","label":"dashboard"}
 {"issue_id":"hq-mayor","label":"gt:agent"}
 {"issue_id":"hq-mgdd","label":"delivery-acked-at:2026-02-24T12:29:05Z"}
